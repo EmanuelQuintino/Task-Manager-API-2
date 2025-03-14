@@ -30,6 +30,22 @@ export const userRepository = {
       const user = await db.get(query, email);
 
       return user;
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async getUserByID(id: string) {
+    try {
+      const db = await sqliteConnection();
+
+      const query = `SELECT * FROM users WHERE id = ?`;
+
+      const user = await db.get(query, id);
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
   },
 };
