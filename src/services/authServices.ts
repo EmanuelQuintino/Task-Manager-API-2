@@ -2,6 +2,7 @@ import { compare } from "bcrypt";
 import { AppError } from "../errors/appError";
 import { UserRepositoryTypes } from "./userServices";
 import { AuthDataTypes } from "../validations/authSchema";
+import { sign } from "jsonwebtoken";
 
 export const authServices = {
   async login({ email, password }: AuthDataTypes, repository: UserRepositoryTypes) {
@@ -18,9 +19,15 @@ export const authServices = {
         throw new AppError("email or password invalid", 401);
       }
 
-      console.log(passwordCheck, user);
+      if (!process.env.SECRET_TOKEN) {
+        throw new AppError("SECRET_TOKEN is not defined", 500);
+      }
 
-      return { id: user.id };
+      const token = sign({ id: user.id }, process.env.SECRET_TOKEN, {
+        expiresIn: "30s",
+      });
+
+      return { id: user.id, token };
     } catch (error) {
       throw error;
     }
