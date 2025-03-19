@@ -22,4 +22,12 @@ export const authControllers = {
       next(error);
     }
   },
+
+  async logout(req: Request, res: Response, next: NextFunction) {
+    try {
+      res.clearCookie("token").status(200).json({ message: "logout completed" });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

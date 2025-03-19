@@ -24,9 +24,9 @@ export const userControllers = {
 
   async read(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = UUIDSchema().parse(req.params);
+      const { id } = UUIDSchema().parse({ id: req.userID });
 
-      const user = await userServices.read(id, userRepository); // throw
+      const user = await userServices.read(id, userRepository);
 
       res.status(200).json(user);
     } catch (error) {

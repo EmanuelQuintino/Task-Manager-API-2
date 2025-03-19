@@ -20,10 +20,10 @@ export const authServices = {
       }
 
       const token = sign({ id: user.id }, process.env.SECRET_TOKEN, {
-        expiresIn: "30s",
+        expiresIn: "1d",
       });
 
-      return { id: user.id, token };
+      return { id: user.id, token: token };
     } catch (error) {
       throw error;
     }
