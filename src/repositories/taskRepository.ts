@@ -1,49 +1,75 @@
 import { sqliteConnection } from "../databases";
-import { UserDataTypes } from "../validations/userSchema";
+import { TaskDataTypes } from "../validations/taskSchema";
 
-export type CreateUserDataType = UserDataTypes & { id: string };
+export type CreateTaskDataType = TaskDataTypes & { id: string };
+export type UpdateTaskDataType = CreateTaskDataType & { update_at: Date };
 
-export const userRepository = {
-  async create({ id, name, email, password }: CreateUserDataType) {
+export const taskRepository = {
+  async create({ id, title, description, date, status, user_id }: CreateTaskDataType) {
     try {
       const db = await sqliteConnection();
 
       const query = `
-      INSERT INTO users (id, name, email, password)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO tasks (id, title, description, date, status, user_id)
+      VALUES (?, ?, ?, ?, ?, ?)
     `;
 
-      await db.run(query, [id, name, email, password]);
+      await db.run(query, [id, title, description, date, status, user_id]);
 
-      return { id, name, email, password };
+      return { id, title, description, date, status, user_id };
     } catch (error) {
       throw error;
     }
   },
 
-  async getUserByEmail(email: string) {
+  async getTaskByID(id: string) {
     try {
       const db = await sqliteConnection();
 
-      const query = `SELECT * FROM users WHERE email = ?`;
+      const query = `SELECT * FROM tasks WHERE id = ?`;
 
-      const user = await db.get(query, email);
+      const task = await db.get(query, id);
 
-      return user;
+      return task;
     } catch (error) {
       throw error;
     }
   },
 
-  async getUserByID(id: string) {
+  async updateTask({
+    id,
+    title,
+    description,
+    date,
+    status,
+    user_id,
+    update_at,
+  }: UpdateTaskDataType) {
     try {
       const db = await sqliteConnection();
 
-      const query = `SELECT * FROM users WHERE id = ?`;
+      const query = `
+      UPDATE tasks
+      SET title = ?, description = ?, date = ?, status = ?, update_at = ?
+      WHERE id = ? AND user_id = ?
+    `;
 
-      const user = await db.get(query, id);
+      await db.run(query, [title, description, date, status, update_at, id, user_id]);
 
-      return user;
+      return { id, title, description, date, status, user_id, update_at };
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async deleteTaskByID(id: string) {
+    try {
+      const db = await sqliteConnection();
+
+      const query = `DELETE FROM tasks WHERE id = ?`;
+      await db.run(query, id);
+
+      return { id };
     } catch (error) {
       throw error;
     }
