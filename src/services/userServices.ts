@@ -3,7 +3,6 @@ import { UserDataTypes } from "../validations/userSchema";
 import { randomUUID } from "node:crypto";
 import { hash } from "bcrypt";
 import { AppError } from "../errors/appError";
-import { NextFunction } from "express";
 
 export type UserRepositoryTypes = {
   create(data: CreateUserDataType): Promise<CreateUserDataType | undefined>;

@@ -1,11 +1,11 @@
 import { sqliteConnection } from "../databases";
-import { TaskDataTypes } from "../validations/taskSchema";
+import { TaskDataCreate } from "../services/taskServices";
 
-export type CreateTaskDataType = TaskDataTypes & { id: string };
+export type CreateTaskDataType = TaskDataCreate & { id: string };
 export type UpdateTaskDataType = CreateTaskDataType & { update_at: Date };
 
 export const taskRepository = {
-  async create({ id, title, description, date, status, user_id }: CreateTaskDataType) {
+  async createTask({ id, title, description, date, status, user_id }: CreateTaskDataType) {
     try {
       const db = await sqliteConnection();
 
