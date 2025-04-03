@@ -20,7 +20,7 @@
 
 ```bash
 # clone project
-$ git clone https://github.com/EmanuelQuintino/Task-Manager-WDC-API.git
+$ git clone https://github.com/EmanuelQuintino/Task-Manager-API-2.git
 
 # install dependencies
 $ npm install
