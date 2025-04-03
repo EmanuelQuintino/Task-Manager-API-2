@@ -4,7 +4,7 @@ export const taskSchema = z
   .object({
     title: z.string().min(3).max(255, "max 255 characters"),
     description: z.string().min(3).max(255, "max 255 characters"),
-    date: z.string().date("date poorly formatted"),
+    date: z.string().datetime("date poorly formatted"),
     status: z.enum(["pending", "completed"]).optional(),
   })
   .strict();
