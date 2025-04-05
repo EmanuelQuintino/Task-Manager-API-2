@@ -15,8 +15,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 const whiteList = [
-  "http://localhost:5173",
-  "http://127.0.0.1:5173",
+  // "http://localhost:5173",
+  // "http://127.0.0.1:5173",
   "https://task-manager-wdc.vercel.app",
 ];
 
@@ -40,4 +40,4 @@ sqliteConnection()
   .then(() => console.log("Database is connected..."))
   .catch((error) => console.error("Database ERROR - ", error));
 
-runMigrations(); // colocar feedback
+runMigrations(); // add feedback
